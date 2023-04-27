@@ -1,22 +1,16 @@
 package hibernate.configuration;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
-import java.util.List;
 import java.util.Properties;
 
 /**
@@ -27,7 +21,7 @@ import java.util.Properties;
 @EnableWebMvc
 @ComponentScan(basePackages = "hibernate")
 @EnableTransactionManagement
-public class MyConfiguration implements WebMvcConfigurer {
+public class MyConfiguration {
 
     @Bean
     public LocalSessionFactoryBean sessionFactory() throws PropertyVetoException {
@@ -65,14 +59,5 @@ public class MyConfiguration implements WebMvcConfigurer {
         return transactionManager;
     }
 
-    @Override
-    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-        for (HttpMessageConverter converter : converters) {
-            if (converter instanceof org.springframework.http.converter.json.MappingJackson2HttpMessageConverter) {
-                ObjectMapper mapper = ((MappingJackson2HttpMessageConverter) converter).getObjectMapper();
-                mapper.registerModule(new Hibernate5Module());
-            }
-        }
-    }
 
 }
