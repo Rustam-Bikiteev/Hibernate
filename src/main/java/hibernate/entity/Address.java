@@ -1,6 +1,5 @@
 package hibernate.entity;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -24,8 +23,7 @@ public class Address {
     private int buildingNum;
     private int flatNum;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "address")
-    @JsonManagedReference
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @JsonIgnore
     @ToString.Exclude
     private List<Person> persons;
 }

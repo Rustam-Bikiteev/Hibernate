@@ -47,7 +47,7 @@ public class PersonDAOImpl implements PersonDAO {
     @Transactional
     public List<Person> getAllPersonsWithAddress() {
         Session session = sessionFactory.getCurrentSession();
-        Query<Person> query = session.createQuery("select p from Person p join p.address", Person.class);
+        Query<Person> query = session.createQuery("from Person p left join fetch p.address", Person.class);
         List<Person> persons = query.getResultList();
         return persons;
     }
@@ -81,7 +81,7 @@ public class PersonDAOImpl implements PersonDAO {
     @Transactional
     public Person getPersonWithAddress(int id) {
         Session session = sessionFactory.getCurrentSession();
-        Query<Person> query = session.createQuery("select p from Person p join p.address where p.id =:id", Person.class);
+        Query<Person> query = session.createQuery("select p from Person p left join fetch p.address where p.id =:id", Person.class);
         Person person = query.setParameter("id", id).getSingleResult();
         return person;
     }
