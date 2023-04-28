@@ -2,7 +2,7 @@ package hibernate.entity;
 
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
 import javax.persistence.*;
@@ -25,7 +25,7 @@ public class Person {
     private String email;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id")
-    @JsonBackReference
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     @ToString.Exclude
     private Address address;
 }
